@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home / Twitter Sentiment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="layout">
+        <!-- Sidebar Navigation -->
+        <header class="sidebar">
+            <div class="logo">
+                <i class="fab fa-twitter"></i>
+            </div>
+            <nav>
+                <a href="#" class="active" id="navHome">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#" id="navViral">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Viral Predictor</span>
+                </a>
+                <a href="#">
+                    <i class="fas fa-hashtag"></i>
+                    <span>Explore</span>
+                </a>
+                <a href="#">
+                    <i class="far fa-bell"></i>
+                    <span>Notifications</span>
+                </a>
+                <a href="#">
+                    <i class="far fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="#">
+                    <i class="far fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </nav>
+            <button class="tweet-btn-large" id="sidebarTweetBtn">Tweet</button>
+        </header>
+
+        <!-- Main Feed -->
+        <main class="feed">
+            <div class="feed-header" id="feedHeader">
+                <h2>Home</h2>
+                <i class="far fa-star"></i>
+            </div>
+            
+            <div class="feed-header" id="viralHeader" style="display: none;">
+                <h2>Viral Content Predictor</h2>
+                <i class="fas fa-magic"></i>
+            </div>
+
+            <!-- Tweet Input Box -->
+            <div class="tweet-box">
+                <div class="input-area">
+                    <div class="avatar"></div>
+                    <div class="input-wrapper">
+                        <textarea id="tweetInput" placeholder="What's happening?"></textarea>
+                        <div class="input-actions">
+                            <div class="icons">
+                                <i class="far fa-image"></i>
+                                <i class="fas fa-poll-h"></i>
+                                <i class="far fa-smile"></i>
+                            </div>
+                            <button id="submitBtn" disabled>Tweet</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feed Stream -->
+            <div id="feedStream">
+                <!-- Sample tweets will be loaded here -->
+                <div class="tweet">
+                    <div class="avatar"></div>
+                    <div class="tweet-content">
+                        <div class="tweet-header">
+                            <div class="user-info">
+                                <span class="name">Sentiment Bot</span>
+                                <span class="handle">@sentiment_bot</span>
+                                <span class="time">· 2h</span>
+                            </div>
+                            <div class="sentiment-badge Neutral">Demo</div>
+                        </div>
+                        <div class="tweet-text">Welcome to Sentiment Twitter! Type any text above and click Tweet to see how our AI model analyzes sentiment in real-time.</div>
+                        <div class="tweet-footer">
+                            <i class="far fa-comment"></i>
+                            <i class="fas fa-retweet"></i>
+                            <i class="far fa-heart"></i>
+                            <i class="far fa-share-square"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tweet">
+                    <div class="avatar"></div>
+                    <div class="tweet-content">
+                        <div class="tweet-header">
+                            <div class="user-info">
+                                <span class="name">Sentiment Bot</span>
+                                <span class="handle">@sentiment_bot</span>
+                                <span class="time">· 1h</span>
+                            </div>
+                            <div class="sentiment-badge Positive">Positive</div>
+                        </div>
+                        <div class="tweet-text">I absolutely love this new feature! Best thing ever!</div>
+                        <div class="tweet-footer">
+                            <i class="far fa-comment"></i>
+                            <i class="fas fa-retweet"></i>
+                            <i class="far fa-heart"></i>
+                            <i class="far fa-share-square"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tweet">
+                    <div class="avatar"></div>
+                    <div class="tweet-content">
+                        <div class="tweet-header">
+                            <div class="user-info">
+                                <span class="name">Sentiment Bot</span>
+                                <span class="handle">@sentiment_bot</span>
+                                <span class="time">· 30m</span>
+                            </div>
+                            <div class="sentiment-badge Negative">Negative</div>
+                        </div>
+                        <div class="tweet-text">This is terrible, I hate it so much. Waste of time and money.</div>
+                        <div class="tweet-footer">
+                            <i class="far fa-comment"></i>
+                            <i class="fas fa-retweet"></i>
+                            <i class="far fa-heart"></i>
+                            <i class="far fa-share-square"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Viral Predictor View (Hidden by default) -->
+            <div id="viralStream" style="display: none;">
+                <div class="viral-form-container">
+                    <h3>Simulate Engagement Metrics</h3>
+                    <p>Enter projected metrics to see if this post will go viral!</p>
+                    
+                    <div class="input-group">
+                        <label>Likes</label>
+                        <input type="number" id="viralLikes" class="viral-input" placeholder="e.g. 500" min="0">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Comments</label>
+                        <input type="number" id="viralComments" class="viral-input" placeholder="e.g. 100" min="0">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Shares</label>
+                        <input type="number" id="viralShares" class="viral-input" placeholder="e.g. 200" min="0">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Posting Time (Hour of Day: 0-23)</label>
+                        <input type="number" id="viralTime" class="viral-input" placeholder="e.g. 14" min="0" max="23">
+                    </div>
+                    
+                    <button class="tweet-btn-large" id="predictViralBtn" style="width: 100%; margin-top: 20px;">Predict</button>
+                    
+                    <div id="viralResult" class="viral-result-box" style="display: none;">
+                        <div class="model-result">
+                            <h4>Random Forest:</h4>
+                            <span id="rfResultBadge" class="sentiment-badge">---</span>
+                        </div>
+                        <div class="model-result">
+                            <h4>Gradient Boosting:</h4>
+                            <span id="gbResultBadge" class="sentiment-badge">---</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="widgets">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search Twitter">
+            </div>
+            <div class="trends-container">
+                <h3>Trends for you</h3>
+                <div class="trend-item">
+                    <span>Trending in AI</span>
+                    <p>#SentimentAnalysis</p>
+                    <span>10.5K Tweets</span>
+                </div>
+                <div class="trend-item">
+                    <span>Technology</span>
+                    <p>#PythonFlask</p>
+                    <span>50.2K Tweets</span>
+                </div>
+                <div class="trend-item">
+                    <span>Entertainment</span>
+                    <p>#NewRelease</p>
+                    <span>125K Tweets</span>
+                </div>
+                <div class="trend-item">
+                    <span>Sports</span>
+                    <p>#GameDay</p>
+                    <span>89.3K Tweets</span>
+                </div>
+            </div>
+            <div class="widgets-footer">
+                <p>© 2024 Sentiment Twitter - Demo</p>
+            </div>
+        </aside>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
